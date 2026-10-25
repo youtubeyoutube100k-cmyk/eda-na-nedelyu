@@ -30,7 +30,7 @@ const state = await rpc("get_family_state", { p_code: process.env.FAMILY_CODE })
 const times = [...new Set(Array.isArray(state?.notificationTimes) ? state.notificationTimes : ["08:30"])].sort();
 const currentMinute = Number(parts.hour) * 60 + Number(parts.minute);
 const dueTimes = times.filter((candidate) => {
-  if (!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(candidate)) return false;
+  if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(candidate)) return false;
   const [hour, minute] = candidate.split(":").map(Number);
   const elapsed = currentMinute - (hour * 60 + minute);
   return elapsed >= 0 && elapsed <= 5;
@@ -44,7 +44,7 @@ const todaysMeals = Array.isArray(menu[dayIndex]) ? menu[dayIndex] : [];
 const checked = Array.isArray(state?.checked) ? state.checked : [];
 const groceries = Array.isArray(state?.groceries) ? state.groceries : [];
 const mealLines = todaysMeals.length
-  ? todaysMeals.map((meal) => `• ${meal?.name || "Блюдо"}${Number.isFinite(Number(meal?.price)) ? ` — ${new Intl.NumberFormat("ru-RU").format(Number(meal.price))} сум` : ""}`).join("\\n")
+  ? todaysMeals.map((meal) => `• ${meal?.name || "Блюдо"}${Number.isFinite(Number(meal?.price)) ? ` — ${new Intl.NumberFormat("ru-RU").format(Number(meal.price))} сум` : ""}`).join("\n")
   : "Меню пока не настроено в облачной базе.";
 const todo = groceries.map((item, index) => ({ name: typeof item === "string" ? item : (item?.ru || item?.name || "Продукт"), index }))
   .filter((item) => !checked.includes(item.index)).map((item) => `• ${item.name}`);
@@ -56,7 +56,7 @@ for (const reminderTime of dueTimes) {
     console.log(`Reminder ${slot} already sent or claimed.`);
     continue;
   }
-  const message = `🍲 Еда на неделю\\n${dayNames[dayIndex]}, ${date}\\n\\n📅 Меню на сегодня:\\n${mealLines}\\n\\n🛒 Осталось купить:\\n${todo.length ? todo.join("\\n") : "Всё отмечено как купленное."}\\n\\n⏰ Напоминание в ${reminderTime} (Ташкент)`;
+  const message = `🍲 Еда на неделю\n${dayNames[dayIndex]}, ${date}\n\n📅 Меню на сегодня:\n${mealLines}\n\n🛒 Осталось купить:\n${todo.length ? todo.join("\n") : "Всё отмечено как купленное."}\n\n⏰ Напоминание в ${reminderTime} (Ташкент)`;
   try {
     const tg = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",
