@@ -115,7 +115,7 @@
   const originalSetItem = Storage.prototype.setItem;
   Storage.prototype.setItem = function(key, value) {
     originalSetItem.call(this, key, value);
-    if (this === localStorage && (key === "eda-checked" || key === "eda-votes")) queueSave();
+    if (this === localStorage && (key === "eda-checked" || key === "eda-votes" || key === "eda-menu" || key === "eda-groceries" || key === "eda-notification-times")) queueSave();
   };
 
   async function connectAndPoll() {
