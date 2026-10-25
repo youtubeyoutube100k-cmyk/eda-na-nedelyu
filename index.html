@@ -86,4 +86,5 @@ document.getElementById("langBtn").onclick=()=>{lang=lang==="ru"?"uz":"ru";local
 document.getElementById("resetBtn").onclick=()=>{selectedDay=todayIndex;renderDays();renderMeals();toast(lang==="ru"?"Выбран сегодняшний день":"Bugungi kun tanlandi")};
 applyLanguage();
 </script><script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
+<script src="./config.js"></script><script src="./database.js"></script>
 </body></html>
