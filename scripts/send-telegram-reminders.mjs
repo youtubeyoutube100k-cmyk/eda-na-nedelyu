@@ -49,6 +49,41 @@ const mealLines = todaysMeals.length
 const todo = groceries.map((item, index) => ({ name: typeof item === "string" ? item : (item?.ru || item?.name || "Продукт"), index }))
   .filter((item) => !checked.includes(item.index)).map((item) => `• ${item.name}`);
 
+
+async function sendDailyPoll() {
+  const pollSlot = `${date}_daily_poll`;
+  const claimed = await rpc("claim_family_notification", { p_code: process.env.FAMILY_CODE, p_slot: pollSlot });
+  if (claimed !== true) {
+    console.log(`Today's Telegram food poll already sent or claimed: ${pollSlot}.`);
+    return;
+  }
+
+  const pollOptions = [...new Set(todaysMeals.map((meal) => String(meal?.name || "").trim()).filter(Boolean))].slice(0, 10);
+  if (pollOptions.length < 2) {
+    pollOptions.splice(0, pollOptions.length, "🍲 Борщ", "🍛 Плов", "🍗 Курица с рисом", "🍔 Бургеры");
+  }
+
+  try {
+    const tg = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendPoll`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: process.env.TELEGRAM_CHAT_ID,
+        question: "🍽️ Что будем есть сегодня?",
+        options: pollOptions,
+        is_anonymous: false,
+        allows_multiple_answers: false
+      })
+    });
+    const result = await tg.json();
+    if (!tg.ok || result.ok !== true) throw new Error("Telegram rejected the daily food poll. Check the bot token and group chat ID.");
+    console.log(`Daily food poll sent for ${date}.`);
+  } catch (error) {
+    await rpc("release_family_notification", { p_code: process.env.FAMILY_CODE, p_slot: pollSlot }).catch(() => {});
+    throw error;
+  }
+}
+
 for (const reminderTime of dueTimes) {
   const slot = `${date}_${reminderTime}`;
   const claimed = await rpc("claim_family_notification", { p_code: process.env.FAMILY_CODE, p_slot: slot });
@@ -71,3 +106,6 @@ for (const reminderTime of dueTimes) {
     throw error;
   }
 }
+
+// Publish one family food poll per day, at the first configured reminder time.
+if (dueTimes.length) await sendDailyPoll();
