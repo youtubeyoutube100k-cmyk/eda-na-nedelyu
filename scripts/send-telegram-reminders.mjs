@@ -3,8 +3,8 @@ import process from "node:process";
 const required = ["SUPABASE_URL", "SUPABASE_ANON_KEY", "FAMILY_CODE", "TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"];
 const missing = required.filter((name) => !process.env[name]);
 if (missing.length) {
-  console.error("Add the required GitHub Actions repository secrets: " + missing.join(", "));
-  process.exit(1);
+  console.log("Telegram sender is not configured yet. Add these GitHub Actions secrets: " + missing.join(", "));
+  process.exit(0);
 }
 
 const zone = "Asia/Tashkent";
