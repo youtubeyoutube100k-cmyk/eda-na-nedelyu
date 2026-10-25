@@ -118,6 +118,16 @@
     if (this === localStorage && (key === "eda-checked" || key === "eda-votes")) queueSave();
   };
 
+  async function connectAndPoll() {
+    const remote = await rpc("get_family_state", { p_code: code });
+    await acceptRemote(remote);
+    toast("Семейная база подключена ✓");
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(() => loadRemote(false).catch(err => {
+      console.warn("Синхронизация временно недоступна; повторим позже.", err);
+    }), 8000);
+  }
+
   async function start() {
     if (!ready) {
       console.info("Supabase пока не настроен: заполните config.js после создания проекта.");
@@ -132,19 +142,32 @@
       localStorage.setItem("eda-family-code", code);
     }
     try {
-      const remote = await rpc("get_family_state", { p_code: code });
-      await acceptRemote(remote);
-      toast("Семейная база подключена ✓");
-      pollTimer = setInterval(() => loadRemote(false).catch(err => {
-        console.warn("Синхронизация временно недоступна; повторим позже.", err);
-      }), 8000);
+      await connectAndPoll();
     } catch (err) {
-      localStorage.removeItem("eda-family-code");
-      code = "";
-      toast("База не подключилась. Проверь семейный код и настройки Supabase.");
-      console.error(err);
+      const invalidCode = String(err?.message || "").includes("Неверный семейный код");
+      if (invalidCode) {
+        localStorage.removeItem("eda-family-code");
+        code = (window.prompt("Семейный код изменился. Введите актуальный семейный код:") || "").trim();
+        if (!code) {
+          toast("Семейный код не введён. Синхронизация не включена.");
+          return;
+        }
+        localStorage.setItem("eda-family-code", code);
+        try {
+          await connectAndPoll();
+        } catch (retryError) {
+          localStorage.removeItem("eda-family-code");
+          code = "";
+          toast("Не удалось подключиться. Проверь код и интернет.");
+          console.error(retryError);
+        }
+      } else {
+        toast("Не удалось обновить базу. Проверь интернет-соединение.");
+        console.error(err);
+      }
     }
   }
+
   window.edaDatabase = {
     isConfigured: () => !!ready,
     syncNow: () => saveRemote(),
