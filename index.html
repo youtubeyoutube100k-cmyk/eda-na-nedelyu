@@ -9,6 +9,20 @@
 [data-theme=dark]{--bg:#141a16;--panel:#202923;--text:#edf4ee;--muted:#a4b0a6;--line:#354239;--green:#9bd0a9;--soft:#293d30;--yellow:#4b4026;--shadow:0 12px 32px #0003}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;transition:background .2s,color .2s}
 button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1160px;margin:auto;padding:24px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}.brand{display:flex;gap:12px;align-items:center}.logo{width:48px;height:48px;border-radius:17px;background:var(--green);color:white;display:grid;place-items:center;font-size:24px}.brand h1{font-size:20px;line-height:1.2;margin:0}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;align-items:center}.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:12px;font-weight:650}.btn.primary{background:var(--green);border-color:var(--green);color:#fff}.btn:active{transform:scale(.98)}.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-bottom:22px}.hero-main{background:var(--green);color:#fff;border-radius:24px;padding:28px;min-height:220px;position:relative;overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;opacity:.8;font-weight:750}.hero h2{font-size:clamp(25px,4vw,38px);line-height:1.12;max-width:440px;margin:12px 0}.hero p{max-width:440px;opacity:.88;margin:0}.hero-art{position:absolute;right:24px;bottom:-15px;font-size:100px;opacity:.22}.stat-panel{background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:24px;padding:22px;display:flex;flex-direction:column;justify-content:space-between}.stat-row{display:flex;justify-content:space-between;align-items:center}.stat{font-size:30px;font-weight:800;letter-spacing:-.04em}.small{font-size:12px;color:var(--muted)}.pill{border-radius:99px;background:var(--soft);color:var(--green);font-weight:750;padding:6px 10px;font-size:12px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:26px 0 14px}.section-head h2{font-size:20px;margin:0}.section-head p{margin:4px 0 0;color:var(--muted);font-size:13px}.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px}.day{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:13px 10px;text-align:left;color:var(--text);min-height:76px}.day.active{border:2px solid var(--green);background:var(--soft)}.day b{display:block;font-size:12px}.day span{display:block;font-size:11px;color:var(--muted);margin-top:5px}.content-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;margin-top:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}.meal-list{display:grid;gap:11px}.meal{display:flex;gap:13px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:16px}.meal-emoji{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;background:var(--soft);border-radius:14px;font-size:25px}.meal-info{flex:1;min-width:0}.meal-info b{display:block}.meal-info span{font-size:12px;color:var(--muted)}.meal-price{font-size:12px;font-weight:750;white-space:nowrap}.panel h3{margin:0 0 14px;font-size:17px}.checklist{display:grid;gap:10px}.check{display:flex;gap:10px;align-items:center;color:var(--text)}.check input{accent-color:var(--green);width:17px;height:17px}.check.done span{text-decoration:line-through;color:var(--muted)}.budget{background:var(--soft);border-radius:16px;padding:15px;margin-top:16px}.budget-line{display:flex;justify-content:space-between;gap:10px}.progress{height:7px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:10px}.progress i{display:block;height:100%;width:62%;background:var(--green);border-radius:9px}.vote-options{display:grid;gap:9px}.vote-option{display:flex;align-items:center;gap:10px;border:1px solid var(--line);padding:12px;border-radius:13px;background:transparent;color:var(--text);text-align:left}.vote-option.selected{background:var(--soft);border-color:var(--green)}.vote-option span:last-child{margin-left:auto;color:var(--muted);font-size:12px}.notice{font-size:12px;color:var(--muted);margin:12px 0 0}.foot{color:var(--muted);font-size:12px;text-align:center;padding:28px 0 8px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:12px 18px;border-radius:12px;box-shadow:var(--shadow);display:none;max-width:90%;z-index:5}.toast.show{display:block}input[type=text]{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:11px;padding:10px}.row{display:flex;gap:8px}.row>*{flex:1}.hide{display:none!important}
+.meal-edit,.grocery-remove,.time-remove{border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:10px;padding:7px 9px;font-weight:700}
+.meal-edit:hover,.grocery-remove:hover,.time-remove:hover{color:var(--green);border-color:var(--green)}
+.grocery-item{display:flex;align-items:center;gap:8px}
+.grocery-item .check{flex:1;min-width:0}
+.grocery-remove,.time-remove{flex:0 0 auto}
+.grocery-add-form,.notification-add-form{display:flex;gap:8px;margin-top:13px}
+.grocery-add-form input,.notification-add-form input{min-width:0;flex:1;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:11px;padding:10px}
+.notification-panel{margin-top:18px}
+.notification-times{display:grid;gap:9px;margin:12px 0}
+.notification-time{display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid var(--line);border-radius:13px}
+.notification-time input{margin-left:auto;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--text);padding:7px}
+.notification-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var(--green) 35%,transparent);outline-offset:2px}
+@media(hover:hover){.day:hover,.meal:hover,.panel:hover{border-color:color-mix(in srgb,var(--green) 28%,var(--line))}}
 @media(max-width:800px){.wrap{padding:15px}.hero{grid-template-columns:1fr}.hero-main{min-height:200px}.days{grid-template-columns:repeat(4,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}.stat-panel{min-height:150px}.top{align-items:flex-start}.brand h1{font-size:17px}.actions{flex-wrap:wrap;justify-content:flex-end}.btn{padding:9px 10px;font-size:12px}}@media(max-width:420px){.days{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-main{padding:22px}.hero-art{font-size:75px;right:12px}.brand p{max-width:150px}.logo{width:42px;height:42px}}
 </style>
 <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Еда на неделю"><meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -20,8 +34,20 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:
 <div class="section-head"><div><h2>Меню на неделю</h2><p>Выбери день, чтобы посмотреть блюда</p></div><button class="btn" id="resetBtn">Сбросить выбор</button></div>
 <div class="days" id="days"></div>
 <div class="content-grid"><section class="panel"><div class="section-head" style="margin-top:0"><div><h2 id="dayTitle">План на понедельник</h2><p>Примерное меню для семьи</p></div><span class="pill">Меню</span></div><div class="meal-list" id="mealList"></div><div class="budget"><div class="budget-line"><span class="small">Ориентировочная стоимость дня</span><b id="dayCost">120 000 сум</b></div><div class="progress"><i id="progressBar"></i></div></div></section>
-<aside class="panel"><h3>🛒 Список покупок</h3><p class="small" style="margin-top:-7px">Отмечай продукты по мере покупки</p><div class="checklist" id="shoppingList"></div><div class="budget"><div class="budget-line"><span>Уже куплено</span><b id="checkedCount">0 из 8</b></div></div></aside></div>
+<aside class="panel"><h3>🛒 Список покупок</h3><p class="small" style="margin-top:-7px">Отмечай продукты по мере покупки</p><div class="checklist" id="shoppingList"></div><form class="grocery-add-form" id="groceryForm"><input type="text" id="newGrocery" maxlength="100" placeholder="Добавить продукт" aria-label="Новый продукт"><button class="btn" type="submit" id="groceryAddBtn">Добавить</button></form><div class="budget"><div class="budget-line"><span>Уже куплено</span><b id="checkedCount">0 из 8</b></div></div></aside></div>
 <div class="content-grid"><section class="panel"><h3>🗳️ Семейное голосование</h3><p class="small" style="margin-top:-7px">Что приготовим сегодня? Выберите любимый вариант.</p><div class="vote-options" id="voteOptions"></div><button class="btn primary" style="width:100%;margin-top:13px" id="voteBtn">Проголосовать</button><p class="notice" id="voteNote">Это демонстрационное голосование на этом устройстве. Для общего голосования семьи подключим Telegram-сервер.</p></section><section class="panel"><h3>✨ Маленькие помощники</h3><div class="meal" style="margin-bottom:10px"><div class="meal-emoji">💡</div><div class="meal-info"><b>Идея дня</b><span>Планируй блюда с похожими ингредиентами, чтобы меньше тратить.</span></div></div><div class="meal"><div class="meal-emoji">📱</div><div class="meal-info"><b>Добавь на главный экран</b><span>Открой меню браузера и выбери «Добавить на главный экран».</span></div></div><p class="notice">Данные этого прототипа сохраняются в браузере на текущем устройстве. Для синхронизации телефонов нужен общий сервер.</p></section></div>
+<section class="panel notification-panel">
+  <div class="section-head" style="margin-top:0">
+    <div><h2 id="notificationsTitle">🔔 Уведомления в Telegram</h2><p id="notificationsDescription">Выбери одно или несколько времён. По умолчанию — 08:30, время Ташкента.</p></div>
+    <span class="pill" id="notificationBadge">08:30</span>
+  </div>
+  <div class="notification-times" id="notificationTimes"></div>
+  <form class="notification-add-form" id="notificationForm">
+    <input type="time" id="newNotificationTime" value="12:30" aria-label="Время уведомления" required>
+    <button class="btn primary" type="submit" id="notificationAddBtn">Добавить время</button>
+  </form>
+  <p class="notice" id="notificationNote">Выбранные времена синхронизируются с семьёй. Для фактической отправки сообщений нужно один раз подключить Telegram-бота в настройках GitHub.</p>
+</section>
 <footer class="foot" id="footerText">Сделано с заботой о вашей семье · Еда на неделю</footer>
 </div><div class="toast" id="toast" role="status"></div>
 <script>
@@ -35,23 +61,109 @@ const meals=[
 [{e:"🥞",name:"Блины с творогом",sub:"Завтрак · 25 минут",price:28000},{e:"🍗",name:"Дымляма",sub:"Обед · 70 минут",price:52000},{e:"🥙",name:"Лаваш с курицей",sub:"Ужин · 25 минут",price:38000}]
 ];
 const daysRu=["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"],daysUz=["Dushanba","Seshanba","Chorshanba","Payshanba","Juma","Shanba","Yakshanba"],daysShortRu=["ПН","ВТ","СР","ЧТ","ПТ","СБ","ВС"],daysShortUz=["DU","SE","CHO","PA","JU","SH","YA"];
-const groceries=["Яйца","Сосиски","Хлеб","Картофель","Морковь","Лук","Рис","Курица"],groceriesUz=["Tuxum","Sosiska","Non","Kartoshka","Sabzi","Piyoz","Guruch","Tovuq"];
+const defaultGroceries=[["Яйца","Tuxum"],["Сосиски","Sosiska"],["Хлеб","Non"],["Картофель","Kartoshka"],["Морковь","Sabzi"],["Лук","Piyoz"],["Рис","Guruch"],["Курица","Tovuq"]];
+let groceries=JSON.parse(localStorage.getItem("eda-groceries")||"null");
+if(!Array.isArray(groceries)) groceries=defaultGroceries.map(([ru,uz])=>({ru,uz}));
+groceries=groceries.map(g=>typeof g==="string"?({ru:g,uz:g}):({ru:String(g.ru??g.name??""),uz:String(g.uz??g.ru??g.name??"")}));
+const groceriesUz=defaultGroceries.map(x=>x[1]);
 const mealsUzNames=[["2 ta tuxum, sosiska va non","Smetanali borsh","Guruch va salat bilan tovuq"],["Suli bo‘tqasi va banan","Uy palovi","Salat va pechda pishgan kartoshka"],["Issiq sendvichlar","Go‘shtli makaron","Uy burgerlari"],["Tvorogli quymoq","Tovuqli sho‘rva","Go‘shtli dimlangan sabzavotlar"],["Pomidorli omlet","Smetanali manti","Sabzavotli baliq"],["Manniy bo‘tqa va mevalar","Mastava","Uy pitsasi"],["Tvorogli blinchiklar","Dimlama","Tovuqli lavash"]];
 const mealsUzSubs=[["Nonushta · 20 daqiqa","Tushlik · 60 daqiqa","Kechki ovqat · 40 daqiqa"],["Nonushta · 15 daqiqa","Tushlik · 75 daqiqa","Kechki ovqat · 35 daqiqa"],["Nonushta · 15 daqiqa","Tushlik · 35 daqiqa","Kechki ovqat · 45 daqiqa"],["Nonushta · 25 daqiqa","Tushlik · 50 daqiqa","Kechki ovqat · 45 daqiqa"],["Nonushta · 15 daqiqa","Tushlik · 70 daqiqa","Kechki ovqat · 35 daqiqa"],["Nonushta · 15 daqiqa","Tushlik · 55 daqiqa","Kechki ovqat · 45 daqiqa"],["Nonushta · 25 daqiqa","Tushlik · 70 daqiqa","Kechki ovqat · 25 daqiqa"]];
-const todayIndex=(new Date().getDay()+6)%7;let selectedDay=todayIndex,selectedVote=-1,lang=localStorage.getItem("eda-lang")||"ru",theme=localStorage.getItem("eda-theme")||"light",checked=JSON.parse(localStorage.getItem("eda-checked")||"[]"),votes=JSON.parse(localStorage.getItem("eda-votes")||"{}");
+const todayIndex=(new Date().getDay()+6)%7;let selectedDay=todayIndex,selectedVote=-1,lang=localStorage.getItem("eda-lang")||"ru",theme=localStorage.getItem("eda-theme")||"light",checked=JSON.parse(localStorage.getItem("eda-checked")||"[]"),votes=JSON.parse(localStorage.getItem("eda-votes")||"{}"),notificationTimes=JSON.parse(localStorage.getItem("eda-notification-times")||'["08:30"]');
+if(!Array.isArray(notificationTimes))notificationTimes=["08:30"];
+if(!localStorage.getItem("eda-groceries"))localStorage.setItem("eda-groceries",JSON.stringify(groceries));
+if(!localStorage.getItem("eda-menu"))localStorage.setItem("eda-menu",JSON.stringify(meals));
+if(!localStorage.getItem("eda-notification-times"))localStorage.setItem("eda-notification-times",JSON.stringify(notificationTimes));
 document.documentElement.dataset.theme=theme;
 function money(n){return new Intl.NumberFormat(lang==="ru"?"ru-RU":"uz-UZ").format(n)+(lang==="ru"?" сум":" so‘m")}
 function toast(s){let el=document.getElementById("toast");el.textContent=s;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2800)}
 function renderDays(){const names=lang==="ru"?daysRu:daysUz,shorts=lang==="ru"?daysShortRu:daysShortUz;document.getElementById("days").innerHTML=names.map((d,i)=>'<button class="day '+(i===selectedDay?'active':'')+'" data-day="'+i+'"><b>'+shorts[i]+'</b><span>'+d+'</span></button>').join("");document.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{selectedDay=+b.dataset.day;renderDays();renderMeals()})}
-function renderMeals(){const names=lang==="ru"?daysRu:daysUz;document.getElementById("dayTitle").textContent=(lang==="ru"?"План на ":"Reja: ")+names[selectedDay].toLowerCase();document.getElementById("mealList").innerHTML=meals[selectedDay].map((m,i)=>'<div class="meal"><div class="meal-emoji">'+m.e+'</div><div class="meal-info"><b>'+(lang==="ru"?m.name:mealsUzNames[selectedDay][i])+'</b><span>'+(lang==="ru"?m.sub:mealsUzSubs[selectedDay][i])+'</span></div><div class="meal-price">'+money(m.price)+'</div></div>').join("");let total=meals[selectedDay].reduce((s,m)=>s+m.price,0);document.getElementById("dayCost").textContent=money(total);document.getElementById("progressBar").style.width=Math.min(100,total/1500)+"%"}
-function renderGroceries(){const list=lang==="ru"?groceries:groceriesUz;document.getElementById("shoppingList").innerHTML=list.map((g,i)=>'<label class="check '+(checked.includes(i)?'done':'')+'"><input type="checkbox" data-grocery="'+i+'" '+(checked.includes(i)?'checked':'')+'><span>'+g+'</span></label>').join("");document.getElementById("checkedCount").textContent=lang==="ru"?checked.length+" из "+groceries.length:checked.length+" / "+groceries.length;document.querySelectorAll("[data-grocery]").forEach(c=>c.onchange=()=>{let i=+c.dataset.grocery;checked=c.checked?[...checked,i]:checked.filter(x=>x!==i);localStorage.setItem("eda-checked",JSON.stringify(checked));renderGroceries()})}
+function renderMeals(){
+const names=lang==="ru"?daysRu:daysUz;
+document.getElementById("dayTitle").textContent=(lang==="ru"?"План на ":"Reja: ")+names[selectedDay].toLowerCase();
+document.getElementById("mealList").innerHTML=meals[selectedDay].map((m,i)=>'<div class="meal"><div class="meal-emoji">'+m.e+'</div><div class="meal-info"><b>'+(lang==="ru"?m.name:(m.nameUz||mealsUzNames[selectedDay][i]))+'</b><span>'+(lang==="ru"?m.sub:mealsUzSubs[selectedDay][i])+'</span></div><div class="meal-price">'+money(m.price)+'</div><button type="button" class="meal-edit" data-edit-meal="'+i+'" aria-label="Изменить блюдо">✏️</button></div>').join("");
+let total=meals[selectedDay].reduce((s,m)=>s+m.price,0);
+document.getElementById("dayCost").textContent=money(total);
+document.getElementById("progressBar").style.width=Math.min(100,total/1500)+"%";
+document.querySelectorAll("[data-edit-meal]").forEach(b=>b.onclick=()=>{
+const i=+b.dataset.editMeal,m=meals[selectedDay][i];
+const name=prompt(lang==="ru"?"Название блюда:":"Taom nomi:",lang==="ru"?m.name:(m.nameUz||m.name));
+if(name===null||!name.trim())return;
+const cost=prompt(lang==="ru"?"Стоимость в сумах:":"Narxi (so‘m):",String(m.price));
+if(cost===null)return;
+const price=Number(cost.replace(/[^0-9]/g,""));
+if(!Number.isFinite(price)||price<0){toast(lang==="ru"?"Укажи стоимость числом.":"Narxni raqam bilan kiriting.");return}
+m.name=name.trim();m.nameUz=name.trim();m.price=price;
+localStorage.setItem("eda-menu",JSON.stringify(meals));
+renderMeals();toast(lang==="ru"?"Блюдо сохранено ✓":"Taom saqlandi ✓")
+});
+}
+function renderGroceries(){
+document.getElementById("shoppingList").innerHTML=groceries.map((g,i)=>'<div class="grocery-item"><label class="check '+(checked.includes(i)?'done':'')+'"><input type="checkbox" data-grocery="'+i+'" '+(checked.includes(i)?'checked':'')+'><span>'+(lang==="ru"?g.ru:g.uz)+'</span></label><button type="button" class="grocery-remove" data-remove-grocery="'+i+'" aria-label="Удалить продукт">×</button></div>').join("");
+document.getElementById("checkedCount").textContent=lang==="ru"?checked.length+" из "+groceries.length:checked.length+" / "+groceries.length;
+document.querySelectorAll("[data-grocery]").forEach(c=>c.onchange=()=>{
+const i=+c.dataset.grocery;checked=c.checked?[...checked.filter(x=>x!==i),i]:checked.filter(x=>x!==i);
+localStorage.setItem("eda-checked",JSON.stringify(checked));renderGroceries()
+});
+document.querySelectorAll("[data-remove-grocery]").forEach(b=>b.onclick=()=>{
+const i=+b.dataset.removeGrocery;groceries.splice(i,1);checked=checked.filter(x=>x!==i).map(x=>x>i?x-1:x);
+localStorage.setItem("eda-groceries",JSON.stringify(groceries));localStorage.setItem("eda-checked",JSON.stringify(checked));renderGroceries()
+});
+}
 const options=[["🍲 Борщ","🍲 Borsh"],["🍛 Плов","🍛 Palov"],["🍔 Бургеры","🍔 Burgerlar"],["🍗 Курица с рисом","🍗 Guruch bilan tovuq"]];
+
+function renderNotificationTimes(){
+const list=document.getElementById("notificationTimes");
+const sorted=[...new Set(notificationTimes.filter(t=>/^([01]\\d|2[0-3]):[0-5]\\d$/.test(t)))].sort();
+notificationTimes=sorted;
+list.innerHTML=sorted.length?sorted.map((t,i)=>'<div class="notification-time"><span>🔔 '+(lang==="ru"?"Напоминание":"Eslatma")+'</span><input type="time" value="'+t+'" data-time-index="'+i+'" aria-label="Время уведомления"><button type="button" class="time-remove" data-remove-time="'+i+'" aria-label="Удалить время">×</button></div>').join(""):'<p class="notice">'+(lang==="ru"?"Времена не выбраны — напоминания выключены.":"Vaqt tanlanmagan — eslatmalar o‘chirilgan.")+'</p>';
+document.getElementById("notificationBadge").textContent=sorted.length?sorted.join(" · "):(lang==="ru"?"Выключено":"O‘chiq");
+list.querySelectorAll("[data-time-index]").forEach(input=>input.onchange=()=>{
+const i=+input.dataset.timeIndex,v=input.value;
+if(!v)return;
+notificationTimes[i]=v;notificationTimes=[...new Set(notificationTimes)].sort();
+localStorage.setItem("eda-notification-times",JSON.stringify(notificationTimes));renderNotificationTimes()
+});
+list.querySelectorAll("[data-remove-time]").forEach(button=>button.onclick=()=>{
+notificationTimes.splice(+button.dataset.removeTime,1);localStorage.setItem("eda-notification-times",JSON.stringify(notificationTimes));renderNotificationTimes()
+});
+}
+document.getElementById("groceryForm").onsubmit=e=>{
+e.preventDefault();const input=document.getElementById("newGrocery"),name=input.value.trim();
+if(!name)return;groceries.push({ru:name,uz:name});localStorage.setItem("eda-groceries",JSON.stringify(groceries));input.value="";renderGroceries();toast(lang==="ru"?"Продукт добавлен ✓":"Mahsulot qo‘shildi ✓")
+};
+document.getElementById("notificationForm").onsubmit=e=>{
+e.preventDefault();const input=document.getElementById("newNotificationTime"),value=input.value;
+if(!value)return;
+notificationTimes=[...new Set([...notificationTimes,value])].sort();
+localStorage.setItem("eda-notification-times",JSON.stringify(notificationTimes));renderNotificationTimes();toast(lang==="ru"?"Время уведомления сохранено ✓":"Bildirishnoma vaqti saqlandi ✓")
+};
+window.edaApplyCloudExtensions=function(state){
+if(Array.isArray(state.menu)){
+for(let d=0;d<7;d++)if(Array.isArray(state.menu[d]))for(let i=0;i<3;i++)if(state.menu[d][i]&&meals[d][i])Object.assign(meals[d][i],state.menu[d][i]);
+localStorage.setItem("eda-menu",JSON.stringify(meals));
+}
+if(Array.isArray(state.groceries)){
+groceries=state.groceries.map(g=>typeof g==="string"?({ru:g,uz:g}):({ru:String(g.ru??g.name??""),uz:String(g.uz??g.ru??g.name??"")}));
+localStorage.setItem("eda-groceries",JSON.stringify(groceries));
+}
+if(Array.isArray(state.notificationTimes)){
+notificationTimes=state.notificationTimes.filter(t=>/^([01]\\d|2[0-3]):[0-5]\\d$/.test(t));
+localStorage.setItem("eda-notification-times",JSON.stringify(notificationTimes));
+}
+renderDays();renderMeals();renderGroceries();renderVotes();renderNotificationTimes()
+};
 function renderVotes(){document.getElementById("voteOptions").innerHTML=options.map((o,i)=>'<button class="vote-option '+(selectedVote===i?'selected':'')+'" data-vote="'+i+'">'+o[lang==="ru"?0:1]+'<span>'+(votes[i]||0)+(lang==="ru"?" голосов":" ovoz")+'</span></button>').join("");document.querySelectorAll("[data-vote]").forEach(b=>b.onclick=()=>{selectedVote=+b.dataset.vote;renderVotes()})}
 document.getElementById("voteBtn").onclick=()=>{if(selectedVote<0){toast(lang==="ru"?"Сначала выбери блюдо 🙂":"Avval taomni tanlang 🙂");return}votes[selectedVote]=(votes[selectedVote]||0)+1;localStorage.setItem("eda-votes",JSON.stringify(votes));renderVotes();document.getElementById("voteNote").textContent=lang==="ru"?"Голос учтён только на этом устройстве. Для общего результата нужен сервер или Telegram-опрос.":"Ovoz faqat shu qurilmada saqlandi. Umumiy natija uchun server yoki Telegram so‘rovi kerak.";toast(lang==="ru"?"Твой голос учтён!":"Ovozingiz qabul qilindi!")};
 document.getElementById("themeBtn").onclick=()=>{theme=theme==="light"?"dark":"light";document.documentElement.dataset.theme=theme;localStorage.setItem("eda-theme",theme);applyLanguage()};
-function applyLanguage(){const uz=lang==="uz";document.documentElement.lang=lang;
+function applyLanguage(){
 const txt=(selector,value)=>{const el=document.querySelector(selector);if(el)el.textContent=value};
-txt(".brand h1",uz?"Haftalik taomlar":"Еда на неделю");txt(".brand p",uz?"Mazali pishiring. Oson rejalashtiring.":"Вкусно готовить. Легко планировать.");
+txt(".brand h1",uz?"Haftalik taomlar":"Еда на неделю");
+txt("#notificationsTitle",uz?"🔔 Telegram bildirishnomalari":"🔔 Уведомления в Telegram");
+txt("#notificationsDescription",uz?"Bir yoki bir nechta vaqtni tanlang. Standart — 08:30, Toshkent vaqti.":"Выбери одно или несколько времён. По умолчанию — 08:30, время Ташкента.");
+txt("#notificationAddBtn",uz?"Vaqt qo‘shish":"Добавить время");
+txt("#notificationNote",uz?"Tanlangan vaqtlar oila bilan sinxronlanadi. Xabar yuborish uchun GitHub sozlamalarida Telegram-botni bir marta ulash kerak.":"Выбранные времена синхронизируются с семьёй. Для фактической отправки сообщений нужно один раз подключить Telegram-бота в настройках GitHub.");
+txt("#groceryAddBtn",uz?"Qo‘shish":"Добавить");
+document.getElementById("newGrocery").placeholder=uz?"Mahsulot qo‘shish":"Добавить продукт";txt(".brand p",uz?"Mazali pishiring. Oson rejalashtiring.":"Вкусно готовить. Легко планировать.");
 txt(".eyebrow",uz?"Oilaviy yordamchingiz":"Ваш семейный помощник");
 txt(".hero h2",uz?"Menyu haqida kamroq o‘ylang — birga ko‘proq vaqt o‘tkazing.":"Меньше думать о меню — больше времени вместе.");
 txt(".hero-main>p",uz?"Taomlarni rejalashtiring, xaridlar ro‘yxatini tuzing va oilaviy byudjetni kuzating.":"Планируйте блюда, собирайте покупки и следите за семейным бюджетом в одном месте.");
@@ -80,7 +192,7 @@ document.getElementById("footerText").textContent=uz?"Oilangiz uchun mehr bilan 
 document.getElementById("themeBtn").textContent=theme==="dark"?(uz?"☀️ Yorug‘ mavzu":"☀️ Светлая тема"):(uz?"🌙 Qorong‘i mavzu":"🌙 Тёмная тема");
 document.getElementById("langBtn").textContent=uz?"РУ":"OʻZ";
 document.getElementById("budgetTotal").textContent=money(850000);
-renderDays();renderMeals();renderGroceries();renderVotes()
+renderDays();renderMeals();renderGroceries();renderVotes();renderNotificationTimes()
 }
 document.getElementById("langBtn").onclick=()=>{lang=lang==="ru"?"uz":"ru";localStorage.setItem("eda-lang",lang);applyLanguage()};
 document.getElementById("resetBtn").onclick=()=>{selectedDay=todayIndex;renderDays();renderMeals();toast(lang==="ru"?"Выбран сегодняшний день":"Bugungi kun tanlandi")};
