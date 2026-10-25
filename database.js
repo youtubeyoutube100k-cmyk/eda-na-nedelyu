@@ -13,13 +13,19 @@
   function stateNow() {
     return {
       checked: JSON.parse(localStorage.getItem("eda-checked") || "[]"),
-      votes: JSON.parse(localStorage.getItem("eda-votes") || "{}")
+      votes: JSON.parse(localStorage.getItem("eda-votes") || "{}"),
+      menu: JSON.parse(localStorage.getItem("eda-menu") || "null"),
+      groceries: JSON.parse(localStorage.getItem("eda-groceries") || "null"),
+      notificationTimes: JSON.parse(localStorage.getItem("eda-notification-times") || '["08:30"]')
     };
   }
   function normalize(s) {
     return JSON.stringify({
       checked: Array.isArray(s?.checked) ? s.checked : [],
-      votes: s?.votes && typeof s.votes === "object" ? s.votes : {}
+      votes: s?.votes && typeof s.votes === "object" ? s.votes : {},
+      menu: Array.isArray(s?.menu) ? s.menu : null,
+      groceries: Array.isArray(s?.groceries) ? s.groceries : null,
+      notificationTimes: Array.isArray(s?.notificationTimes) ? s.notificationTimes : ["08:30"]
     });
   }
   async function rpc(name, body) {
@@ -40,28 +46,43 @@
   }
   function applyState(state) {
     applyingRemote = true;
-    const safe = JSON.parse(normalize(state));
-    checked = safe.checked;
-    votes = safe.votes;
-    localStorage.setItem("eda-checked", JSON.stringify(checked));
-    localStorage.setItem("eda-votes", JSON.stringify(votes));
-    if (typeof applyLanguage === "function") applyLanguage();
-    applyingRemote = false;
+    try {
+      const safe = JSON.parse(normalize(state));
+      checked = safe.checked;
+      votes = safe.votes;
+      localStorage.setItem("eda-checked", JSON.stringify(checked));
+      localStorage.setItem("eda-votes", JSON.stringify(votes));
+      if (Array.isArray(safe.menu)) localStorage.setItem("eda-menu", JSON.stringify(safe.menu));
+      if (Array.isArray(safe.groceries)) localStorage.setItem("eda-groceries", JSON.stringify(safe.groceries));
+      if (Array.isArray(safe.notificationTimes)) localStorage.setItem("eda-notification-times", JSON.stringify(safe.notificationTimes));
+      if (typeof window.edaApplyCloudExtensions === "function") window.edaApplyCloudExtensions(safe);
+      if (typeof applyLanguage === "function") applyLanguage();
+    } finally {
+      applyingRemote = false;
+    }
   }
   async function acceptRemote(remote) {
     const normalized = normalize(remote);
-    const emptyState = normalize({ checked: [], votes: {} });
     const local = stateNow();
-    const localNormalized = normalize(local);
-    // On the first connection, preserve existing local data if the cloud is still empty.
-    if (!lastRemote && normalized === emptyState && localNormalized !== emptyState) {
-      const saved = await rpc("save_family_state", { p_code: code, p_state: local });
-      lastRemote = normalize(saved || local);
+    const cloud = JSON.parse(normalized);
+    const localHasExtendedData = Array.isArray(local.menu) && Array.isArray(local.groceries);
+    // Upgrade older cloud records without discarding the site's existing menu or shopping list.
+    if (!lastRemote && localHasExtendedData && (!Array.isArray(cloud.menu) || !Array.isArray(cloud.groceries))) {
+      const merged = {
+        checked: cloud.checked.length ? cloud.checked : local.checked,
+        votes: Object.keys(cloud.votes).length ? cloud.votes : local.votes,
+        menu: Array.isArray(cloud.menu) ? cloud.menu : local.menu,
+        groceries: Array.isArray(cloud.groceries) ? cloud.groceries : local.groceries,
+        notificationTimes: Array.isArray(cloud.notificationTimes) ? cloud.notificationTimes : local.notificationTimes
+      };
+      const saved = await rpc("save_family_state", { p_code: code, p_state: merged });
+      lastRemote = normalize(saved || merged);
+      applyState(merged);
       return;
     }
     if (normalized !== lastRemote) {
       lastRemote = normalized;
-      applyState(remote);
+      applyState(cloud);
     }
   }
   async function loadRemote(showError) {
@@ -114,8 +135,8 @@
       const remote = await rpc("get_family_state", { p_code: code });
       await acceptRemote(remote);
       toast("Семейная база подключена ✓");
-      pollTimer = setInterval(() => loadRemote(true).catch(() => {
-        clearInterval(pollTimer);
+      pollTimer = setInterval(() => loadRemote(false).catch(err => {
+        console.warn("Синхронизация временно недоступна; повторим позже.", err);
       }), 8000);
     } catch (err) {
       localStorage.removeItem("eda-family-code");
@@ -135,5 +156,8 @@
     }
   };
   window.addEventListener("online", () => loadRemote(false).catch(() => {}));
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") loadRemote(false).catch(() => {});
+  });
   window.addEventListener("load", start);
 })();
