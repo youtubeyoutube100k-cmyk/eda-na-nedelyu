@@ -48,21 +48,29 @@
     if (typeof applyLanguage === "function") applyLanguage();
     applyingRemote = false;
   }
+  async function acceptRemote(remote) {
+    const normalized = normalize(remote);
+    const emptyState = normalize({ checked: [], votes: {} });
+    const local = stateNow();
+    const localNormalized = normalize(local);
+    // On the first connection, preserve existing local data if the cloud is still empty.
+    if (!lastRemote && normalized === emptyState && localNormalized !== emptyState) {
+      const saved = await rpc("save_family_state", { p_code: code, p_state: local });
+      lastRemote = normalize(saved || local);
+      return;
+    }
+    if (normalized !== lastRemote) {
+      lastRemote = normalized;
+      applyState(remote);
+    }
+  }
   async function loadRemote(showError) {
     if (!ready || !code) return;
     try {
       const remote = await rpc("get_family_state", { p_code: code });
-      const normalized = normalize(remote);
-      if (normalized !== lastRemote) {
-        lastRemote = normalized;
-        applyState(remote);
-      }
+      await acceptRemote(remote);
     } catch (err) {
-      if (showError) {
-        localStorage.removeItem("eda-family-code");
-        code = "";
-        toast("Не удалось подключиться: проверь семейный код и настройки базы.");
-      }
+      if (showError) toast("Не удалось обновить базу. Проверь интернет-соединение.");
       throw err;
     }
   }
@@ -104,8 +112,7 @@
     }
     try {
       const remote = await rpc("get_family_state", { p_code: code });
-      lastRemote = normalize(remote);
-      applyState(remote);
+      await acceptRemote(remote);
       toast("Семейная база подключена ✓");
       pollTimer = setInterval(() => loadRemote(true).catch(() => {
         clearInterval(pollTimer);
