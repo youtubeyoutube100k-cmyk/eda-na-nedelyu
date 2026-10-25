@@ -113,7 +113,7 @@ const options=[["🍲 Борщ","🍲 Borsh"],["🍛 Плов","🍛 Palov"],["�
 
 function renderNotificationTimes(){
 const list=document.getElementById("notificationTimes");
-const sorted=[...new Set(notificationTimes.filter(t=>/^([01]\\d|2[0-3]):[0-5]\\d$/.test(t)))].sort();
+const sorted=[...new Set(notificationTimes.filter(t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(t)))].sort();
 notificationTimes=sorted;
 list.innerHTML=sorted.length?sorted.map((t,i)=>'<div class="notification-time"><span>🔔 '+(lang==="ru"?"Напоминание":"Eslatma")+'</span><input type="time" value="'+t+'" data-time-index="'+i+'" aria-label="Время уведомления"><button type="button" class="time-remove" data-remove-time="'+i+'" aria-label="Удалить время">×</button></div>').join(""):'<p class="notice">'+(lang==="ru"?"Времена не выбраны — напоминания выключены.":"Vaqt tanlanmagan — eslatmalar o‘chirilgan.")+'</p>';
 document.getElementById("notificationBadge").textContent=sorted.length?sorted.join(" · "):(lang==="ru"?"Выключено":"O‘chiq");
@@ -147,7 +147,7 @@ groceries=state.groceries.map(g=>typeof g==="string"?({ru:g,uz:g}):({ru:String(g
 localStorage.setItem("eda-groceries",JSON.stringify(groceries));
 }
 if(Array.isArray(state.notificationTimes)){
-notificationTimes=state.notificationTimes.filter(t=>/^([01]\\d|2[0-3]):[0-5]\\d$/.test(t));
+notificationTimes=state.notificationTimes.filter(t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(t));
 localStorage.setItem("eda-notification-times",JSON.stringify(notificationTimes));
 }
 renderDays();renderMeals();renderGroceries();renderVotes();renderNotificationTimes()
@@ -155,7 +155,7 @@ renderDays();renderMeals();renderGroceries();renderVotes();renderNotificationTim
 function renderVotes(){document.getElementById("voteOptions").innerHTML=options.map((o,i)=>'<button class="vote-option '+(selectedVote===i?'selected':'')+'" data-vote="'+i+'">'+o[lang==="ru"?0:1]+'<span>'+(votes[i]||0)+(lang==="ru"?" голосов":" ovoz")+'</span></button>').join("");document.querySelectorAll("[data-vote]").forEach(b=>b.onclick=()=>{selectedVote=+b.dataset.vote;renderVotes()})}
 document.getElementById("voteBtn").onclick=()=>{if(selectedVote<0){toast(lang==="ru"?"Сначала выбери блюдо 🙂":"Avval taomni tanlang 🙂");return}votes[selectedVote]=(votes[selectedVote]||0)+1;localStorage.setItem("eda-votes",JSON.stringify(votes));renderVotes();document.getElementById("voteNote").textContent=lang==="ru"?"Голос учтён только на этом устройстве. Для общего результата нужен сервер или Telegram-опрос.":"Ovoz faqat shu qurilmada saqlandi. Umumiy natija uchun server yoki Telegram so‘rovi kerak.";toast(lang==="ru"?"Твой голос учтён!":"Ovozingiz qabul qilindi!")};
 document.getElementById("themeBtn").onclick=()=>{theme=theme==="light"?"dark":"light";document.documentElement.dataset.theme=theme;localStorage.setItem("eda-theme",theme);applyLanguage()};
-function applyLanguage(){
+function applyLanguage(){const uz=lang==="uz";document.documentElement.lang=lang;
 const txt=(selector,value)=>{const el=document.querySelector(selector);if(el)el.textContent=value};
 txt(".brand h1",uz?"Haftalik taomlar":"Еда на неделю");
 txt("#notificationsTitle",uz?"🔔 Telegram bildirishnomalari":"🔔 Уведомления в Telegram");
