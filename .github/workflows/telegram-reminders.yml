@@ -21,6 +21,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Check JavaScript syntax
+        run: node scripts/check-site.mjs && node --check scripts/send-telegram-reminders.mjs
       - name: Check schedule and send Telegram reminders
         run: node scripts/send-telegram-reminders.mjs
         env:
