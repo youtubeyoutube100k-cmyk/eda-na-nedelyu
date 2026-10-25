@@ -34,22 +34,56 @@ const meals=[
 [{e:"🥣",name:"Манная каша и фрукты",sub:"Завтрак · 15 минут",price:20000},{e:"🍲",name:"Мастава",sub:"Обед · 55 минут",price:40000},{e:"🍕",name:"Домашняя пицца",sub:"Ужин · 45 минут",price:50000}],
 [{e:"🥞",name:"Блины с творогом",sub:"Завтрак · 25 минут",price:28000},{e:"🍗",name:"Дымляма",sub:"Обед · 70 минут",price:52000},{e:"🥙",name:"Лаваш с курицей",sub:"Ужин · 25 минут",price:38000}]
 ];
-const daysRu=["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"],daysShort=["ПН","ВТ","СР","ЧТ","ПТ","СБ","ВС"];
-const groceries=["Яйца","Сосиски","Хлеб","Картофель","Морковь","Лук","Рис","Курица"];
-let selectedDay=0,selectedVote=-1,theme=localStorage.getItem("eda-theme")||"light",checked=JSON.parse(localStorage.getItem("eda-checked")||"[]"),votes=JSON.parse(localStorage.getItem("eda-votes")||"{}");
+const daysRu=["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"],daysUz=["Dushanba","Seshanba","Chorshanba","Payshanba","Juma","Shanba","Yakshanba"],daysShortRu=["ПН","ВТ","СР","ЧТ","ПТ","СБ","ВС"],daysShortUz=["DU","SE","CHO","PA","JU","SH","YA"];
+const groceries=["Яйца","Сосиски","Хлеб","Картофель","Морковь","Лук","Рис","Курица"],groceriesUz=["Tuxum","Sosiska","Non","Kartoshka","Sabzi","Piyoz","Guruch","Tovuq"];
+const mealsUzNames=[["2 ta tuxum, sosiska va non","Smetanali borsh","Guruch va salat bilan tovuq"],["Suli bo‘tqasi va banan","Uy palovi","Salat va pechda pishgan kartoshka"],["Issiq sendvichlar","Go‘shtli makaron","Uy burgerlari"],["Tvorogli quymoq","Tovuqli sho‘rva","Go‘shtli dimlangan sabzavotlar"],["Pomidorli omlet","Smetanali manti","Sabzavotli baliq"],["Manniy bo‘tqa va mevalar","Mastava","Uy pitsasi"],["Tvorogli blinchiklar","Dimlama","Tovuqli lavash"]];
+const mealsUzSubs=[["Nonushta · 20 daqiqa","Tushlik · 60 daqiqa","Kechki ovqat · 40 daqiqa"],["Nonushta · 15 daqiqa","Tushlik · 75 daqiqa","Kechki ovqat · 35 daqiqa"],["Nonushta · 15 daqiqa","Tushlik · 35 daqiqa","Kechki ovqat · 45 daqiqa"],["Nonushta · 25 daqiqa","Tushlik · 50 daqiqa","Kechki ovqat · 45 daqiqa"],["Nonushta · 15 daqiqa","Tushlik · 70 daqiqa","Kechki ovqat · 35 daqiqa"],["Nonushta · 15 daqiqa","Tushlik · 55 daqiqa","Kechki ovqat · 45 daqiqa"],["Nonushta · 25 daqiqa","Tushlik · 70 daqiqa","Kechki ovqat · 25 daqiqa"]];
+const todayIndex=(new Date().getDay()+6)%7;let selectedDay=todayIndex,selectedVote=-1,lang=localStorage.getItem("eda-lang")||"ru",theme=localStorage.getItem("eda-theme")||"light",checked=JSON.parse(localStorage.getItem("eda-checked")||"[]"),votes=JSON.parse(localStorage.getItem("eda-votes")||"{}");
 document.documentElement.dataset.theme=theme;
-function money(n){return new Intl.NumberFormat("ru-RU").format(n)+" сум"}
+function money(n){return new Intl.NumberFormat(lang==="ru"?"ru-RU":"uz-UZ").format(n)+(lang==="ru"?" сум":" so‘m")}
 function toast(s){let el=document.getElementById("toast");el.textContent=s;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2800)}
-function renderDays(){document.getElementById("days").innerHTML=daysRu.map((d,i)=>'<button class="day '+(i===selectedDay?'active':'')+'" data-day="'+i+'"><b>'+daysShort[i]+'</b><span>'+d+'</span></button>').join("");document.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{selectedDay=+b.dataset.day;renderDays();renderMeals()})}
-function renderMeals(){document.getElementById("dayTitle").textContent="План на "+daysRu[selectedDay].toLowerCase();document.getElementById("mealList").innerHTML=meals[selectedDay].map(m=>'<div class="meal"><div class="meal-emoji">'+m.e+'</div><div class="meal-info"><b>'+m.name+'</b><span>'+m.sub+'</span></div><div class="meal-price">'+money(m.price)+'</div></div>').join("");let total=meals[selectedDay].reduce((s,m)=>s+m.price,0);document.getElementById("dayCost").textContent=money(total);document.getElementById("progressBar").style.width=Math.min(100,total/1500)+"%"}
-function renderGroceries(){document.getElementById("shoppingList").innerHTML=groceries.map((g,i)=>'<label class="check '+(checked.includes(i)?'done':'')+'"><input type="checkbox" data-grocery="'+i+'" '+(checked.includes(i)?'checked':'')+'><span>'+g+'</span></label>').join("");document.getElementById("checkedCount").textContent=checked.length+" из "+groceries.length;document.querySelectorAll("[data-grocery]").forEach(c=>c.onchange=()=>{let i=+c.dataset.grocery;checked=c.checked?[...checked,i]:checked.filter(x=>x!==i);localStorage.setItem("eda-checked",JSON.stringify(checked));renderGroceries()})}
-const options=["🍲 Борщ","🍛 Плов","🍔 Бургеры","🍗 Курица с рисом"];
-function renderVotes(){document.getElementById("voteOptions").innerHTML=options.map((o,i)=>'<button class="vote-option '+(selectedVote===i?'selected':'')+'" data-vote="'+i+'">'+o+'<span>'+(votes[i]||0)+' голосов</span></button>').join("");document.querySelectorAll("[data-vote]").forEach(b=>b.onclick=()=>{selectedVote=+b.dataset.vote;renderVotes()})}
-document.getElementById("voteBtn").onclick=()=>{if(selectedVote<0){toast("Сначала выбери блюдо 🙂");return}votes[selectedVote]=(votes[selectedVote]||0)+1;localStorage.setItem("eda-votes",JSON.stringify(votes));renderVotes();document.getElementById("voteNote").textContent="Голос учтён на этом устройстве. Для общего результата семье нужен общий Telegram-опрос.";toast("Твой голос учтён!")};
-document.getElementById("themeBtn").onclick=()=>{theme=theme==="light"?"dark":"light";document.documentElement.dataset.theme=theme;localStorage.setItem("eda-theme",theme);document.getElementById("themeBtn").textContent=theme==="dark"?"☀️ Светлая тема":"🌙 Тёмная тема"};
-document.getElementById("themeBtn").textContent=theme==="dark"?"☀️ Светлая тема":"🌙 Тёмная тема";
-document.getElementById("langBtn").onclick=()=>toast("Русский интерфейс. Узбекский язык добавим следующим обновлением.");
-document.getElementById("resetBtn").onclick=()=>{selectedDay=0;renderDays();renderMeals();toast("Выбран понедельник")};
-renderDays();renderMeals();renderGroceries();renderVotes();
+function renderDays(){const names=lang==="ru"?daysRu:daysUz,shorts=lang==="ru"?daysShortRu:daysShortUz;document.getElementById("days").innerHTML=names.map((d,i)=>'<button class="day '+(i===selectedDay?'active':'')+'" data-day="'+i+'"><b>'+shorts[i]+'</b><span>'+d+'</span></button>').join("");document.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{selectedDay=+b.dataset.day;renderDays();renderMeals()})}
+function renderMeals(){const names=lang==="ru"?daysRu:daysUz;document.getElementById("dayTitle").textContent=(lang==="ru"?"План на ":"Reja: ")+names[selectedDay].toLowerCase();document.getElementById("mealList").innerHTML=meals[selectedDay].map((m,i)=>'<div class="meal"><div class="meal-emoji">'+m.e+'</div><div class="meal-info"><b>'+(lang==="ru"?m.name:mealsUzNames[selectedDay][i])+'</b><span>'+(lang==="ru"?m.sub:mealsUzSubs[selectedDay][i])+'</span></div><div class="meal-price">'+money(m.price)+'</div></div>').join("");let total=meals[selectedDay].reduce((s,m)=>s+m.price,0);document.getElementById("dayCost").textContent=money(total);document.getElementById("progressBar").style.width=Math.min(100,total/1500)+"%"}
+function renderGroceries(){const list=lang==="ru"?groceries:groceriesUz;document.getElementById("shoppingList").innerHTML=list.map((g,i)=>'<label class="check '+(checked.includes(i)?'done':'')+'"><input type="checkbox" data-grocery="'+i+'" '+(checked.includes(i)?'checked':'')+'><span>'+g+'</span></label>').join("");document.getElementById("checkedCount").textContent=lang==="ru"?checked.length+" из "+groceries.length:checked.length+" / "+groceries.length;document.querySelectorAll("[data-grocery]").forEach(c=>c.onchange=()=>{let i=+c.dataset.grocery;checked=c.checked?[...checked,i]:checked.filter(x=>x!==i);localStorage.setItem("eda-checked",JSON.stringify(checked));renderGroceries()})}
+const options=[["🍲 Борщ","🍲 Borsh"],["🍛 Плов","🍛 Palov"],["🍔 Бургеры","🍔 Burgerlar"],["🍗 Курица с рисом","🍗 Guruch bilan tovuq"]];
+function renderVotes(){document.getElementById("voteOptions").innerHTML=options.map((o,i)=>'<button class="vote-option '+(selectedVote===i?'selected':'')+'" data-vote="'+i+'">'+o[lang==="ru"?0:1]+'<span>'+(votes[i]||0)+(lang==="ru"?" голосов":" ovoz")+'</span></button>').join("");document.querySelectorAll("[data-vote]").forEach(b=>b.onclick=()=>{selectedVote=+b.dataset.vote;renderVotes()})}
+document.getElementById("voteBtn").onclick=()=>{if(selectedVote<0){toast(lang==="ru"?"Сначала выбери блюдо 🙂":"Avval taomni tanlang 🙂");return}votes[selectedVote]=(votes[selectedVote]||0)+1;localStorage.setItem("eda-votes",JSON.stringify(votes));renderVotes();document.getElementById("voteNote").textContent=lang==="ru"?"Голос учтён только на этом устройстве. Для общего результата нужен сервер или Telegram-опрос.":"Ovoz faqat shu qurilmada saqlandi. Umumiy natija uchun server yoki Telegram so‘rovi kerak.";toast(lang==="ru"?"Твой голос учтён!":"Ovozingiz qabul qilindi!")};
+document.getElementById("themeBtn").onclick=()=>{theme=theme==="light"?"dark":"light";document.documentElement.dataset.theme=theme;localStorage.setItem("eda-theme",theme);applyLanguage()};
+function applyLanguage(){const uz=lang==="uz";document.documentElement.lang=lang;
+const txt=(selector,value)=>{const el=document.querySelector(selector);if(el)el.textContent=value};
+txt(".brand h1",uz?"Haftalik taomlar":"Еда на неделю");txt(".brand p",uz?"Mazali pishiring. Oson rejalashtiring.":"Вкусно готовить. Легко планировать.");
+txt(".eyebrow",uz?"Oilaviy yordamchingiz":"Ваш семейный помощник");
+txt(".hero h2",uz?"Menyu haqida kamroq o‘ylang — birga ko‘proq vaqt o‘tkazing.":"Меньше думать о меню — больше времени вместе.");
+txt(".hero-main>p",uz?"Taomlarni rejalashtiring, xaridlar ro‘yxatini tuzing va oilaviy byudjetni kuzating.":"Планируйте блюда, собирайте покупки и следите за семейным бюджетом в одном месте.");
+const statRows=document.querySelectorAll(".stat-panel .stat-row");if(statRows[0]){statRows[0].querySelector(".small").textContent=uz?"Ushbu haftalik reja":"План на эту неделю";statRows[0].querySelector(".pill").textContent=uz?"7 kun":"7 дней"}if(statRows[1])statRows[1].querySelector(".small").textContent=uz?"Mahsulotlar byudjeti":"Бюджет на продукты";
+document.getElementById("plannedCount").textContent=uz?"21 ta taom":"21 блюдо";
+document.querySelector(".stat-panel .stat").nextElementSibling.textContent=uz?"Nonushta · tushlik · kechki ovqat":"Завтрак · обед · ужин";
+document.querySelector(".section-head h2").textContent=uz?"Haftalik menyu":"Меню на неделю";
+document.querySelector(".section-head p").textContent=uz?"Taomlarni ko‘rish uchun kunni tanlang":"Выбери день, чтобы посмотреть блюда";
+document.getElementById("resetBtn").textContent=uz?"Tanlovni tiklash":"Сбросить выбор";
+document.getElementById("dayTitle").parentElement.querySelector("p").textContent=uz?"Oila uchun taxminiy menyu":"Примерное меню для семьи";
+document.getElementById("dayTitle").parentElement.nextElementSibling.textContent=uz?"Menyu":"Меню";
+document.querySelector(".content-grid .panel .budget-line .small").textContent=uz?"Bir kunlik taxminiy xarajat":"Ориентировочная стоимость дня";
+document.querySelector(".content-grid aside h3").textContent=uz?"🛒 Xaridlar ro‘yxati":"🛒 Список покупок";
+document.querySelector(".content-grid aside>p").textContent=uz?"Sotib olingan mahsulotlarni belgilang":"Отмечай продукты по мере покупки";
+document.querySelector(".content-grid aside .budget-line span").textContent=uz?"Sotib olindi":"Уже куплено";
+const grids=document.querySelectorAll(".content-grid");const poll=grids[1].querySelector("section.panel");const helpers=grids[1].querySelector("aside.panel");
+poll.querySelector("h3").textContent=uz?"🗳️ Oilaviy ovoz berish":"🗳️ Семейное голосование";
+poll.querySelector("p").textContent=uz?"Bugun nima pishiramiz? Sevimli taomingizni tanlang.":"Что приготовим сегодня? Выберите любимый вариант.";
+document.getElementById("voteBtn").textContent=uz?"Ovoz berish":"Проголосовать";
+document.getElementById("voteNote").textContent=uz?"Bu namuna ovoz berish. Ovozlar telefonlar orasida sinxronlanmaydi.":"Это демонстрационное голосование. Голоса не синхронизируются между телефонами.";
+helpers.querySelector("h3").textContent=uz?"✨ Kichik yordamchilar":"✨ Маленькие помощники";
+const helpMeals=helpers.querySelectorAll(".meal");helpMeals[0].querySelector("b").textContent=uz?"Kun g‘oyasi":"Идея дня";helpMeals[0].querySelector("span").textContent=uz?"Kamroq sarflash uchun o‘xshash masalliqli taomlarni rejalashtiring.":"Планируй блюда с похожими ингредиентами, чтобы меньше тратить.";
+helpMeals[1].querySelector("b").textContent=uz?"Bosh ekranga qo‘shing":"Добавь на главный экран";helpMeals[1].querySelector("span").textContent=uz?"Brauzer menyusidan «Bosh ekranga qo‘shish» ni tanlang.":"Открой меню браузера и выбери «Добавить на главный экран».";
+helpers.querySelector(".notice").textContent=uz?"Ma’lumotlar faqat shu brauzerda saqlanadi. Telefonlarni sinxronlash uchun umumiy server kerak.":"Данные сохраняются только в этом браузере. Для синхронизации телефонов нужен общий сервер.";
+document.getElementById("footerText").textContent=uz?"Oilangiz uchun mehr bilan tayyorlandi · Haftalik taomlar":"Сделано с заботой о вашей семье · Еда на неделю";
+document.getElementById("themeBtn").textContent=theme==="dark"?(uz?"☀️ Yorug‘ mavzu":"☀️ Светлая тема"):(uz?"🌙 Qorong‘i mavzu":"🌙 Тёмная тема");
+document.getElementById("langBtn").textContent=uz?"РУ":"OʻZ";
+document.getElementById("budgetTotal").textContent=money(850000);
+renderDays();renderMeals();renderGroceries();renderVotes()
+}
+document.getElementById("langBtn").onclick=()=>{lang=lang==="ru"?"uz":"ru";localStorage.setItem("eda-lang",lang);applyLanguage()};
+document.getElementById("resetBtn").onclick=()=>{selectedDay=todayIndex;renderDays();renderMeals();toast(lang==="ru"?"Выбран сегодняшний день":"Bugungi kun tanlandi")};
+applyLanguage();
 </script><script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
 </body></html>
