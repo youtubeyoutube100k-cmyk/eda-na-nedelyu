@@ -119,3 +119,24 @@ $$;
 
 revoke all on function public.claim_family_notification(text, text) from public;
 grant execute on function public.claim_family_notification(text, text) to anon, authenticated;
+
+create or replace function public.release_family_notification(p_code text, p_slot text)
+returns void
+language plpgsql
+security definer
+set search_path = public, extensions, pg_temp
+as $$
+begin
+  if not exists (
+    select 1 from public.family_access
+    where id = 1
+      and code_hash = encode(extensions.digest(coalesce(p_code, ''), 'sha256'), 'hex')
+  ) then
+    raise exception 'Неверный семейный код';
+  end if;
+  delete from public.family_notification_log where slot = p_slot;
+end;
+$$;
+
+revoke all on function public.release_family_notification(text, text) from public;
+grant execute on function public.release_family_notification(text, text) to anon, authenticated;
