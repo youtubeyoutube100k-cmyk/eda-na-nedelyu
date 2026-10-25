@@ -67,7 +67,7 @@ document.querySelector(".content-grid .panel .budget-line .small").textContent=u
 document.querySelector(".content-grid aside h3").textContent=uz?"🛒 Xaridlar ro‘yxati":"🛒 Список покупок";
 document.querySelector(".content-grid aside>p").textContent=uz?"Sotib olingan mahsulotlarni belgilang":"Отмечай продукты по мере покупки";
 document.querySelector(".content-grid aside .budget-line span").textContent=uz?"Sotib olindi":"Уже куплено";
-const grids=document.querySelectorAll(".content-grid");const poll=grids[1].querySelector("section.panel");const helpers=grids[1].querySelector("aside.panel");
+const grids=document.querySelectorAll(".content-grid");const secondGridPanels=grids[1].querySelectorAll("section.panel");const poll=secondGridPanels[0];const helpers=secondGridPanels[1];
 poll.querySelector("h3").textContent=uz?"🗳️ Oilaviy ovoz berish":"🗳️ Семейное голосование";
 poll.querySelector("p").textContent=uz?"Bugun nima pishiramiz? Sevimli taomingizni tanlang.":"Что приготовим сегодня? Выберите любимый вариант.";
 document.getElementById("voteBtn").textContent=uz?"Ovoz berish":"Проголосовать";
