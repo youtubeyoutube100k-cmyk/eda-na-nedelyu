@@ -107,5 +107,6 @@ for (const reminderTime of dueTimes) {
   }
 }
 
-// Publish one family food poll per day, at the first configured reminder time.
-if (dueTimes.length) await sendDailyPoll();
+// Publish one family food poll per day. The daily claim prevents duplicates, and
+// calling this on every scheduled run also recovers if the reminder-time run was missed.
+await sendDailyPoll();
